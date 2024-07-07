@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAVIYA QUIZ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .quiz-container {
+            background-image:url("ii4.png");
+			background-size:cover;
+            padding: 20px;
+			color:white;
+			font-weight:bold;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+			height:fit
+			margin-left:500px;
+            max-width: 1000px;
+        }
+        .quiz-container h1 {
+            text-align: center;
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        .answers {
+            list-style: none;
+            padding: 0;
+        }
+        .answers li {
+            margin-bottom: 10px;
+        }
+        .answers li label {
+            cursor: pointer;
+        }
+        button {
+            background: red;
+            color: white;
+			font-weight:bold;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 15px;
+            width: 15%;
+			margin-left:200px;
+            box-sizing: border-box;
+        }
+        button:hover {
+            background: #218838;
+        }
+        .result {
+            text-align: center;
+            margin-top: 20px;
+        }
+        @media (max-width: 600px) {
+            .quiz-container {
+                padding: 15px;
+            }
+            button {
+                padding: 8px 15px;
+            }
+        }
+		#logo {
+width:80px;
+height:90px;
+display:block;
+float:left;
+margin-bottom:500px;
+}
+.logoo {
+width:40px;
+height:auto;
+display:block;
+float:left;
+margin-top:550px;
+margin-right:25px;
+
+}
+.logoo:hover{
+display:block;
+transition:transform 0.3s ease filter 0.3s ease;
+transform:scale(1.7);
+filter:brightness(1.4);
+}
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    text-align: center;
+    padding: 20px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+    margin: 10px;
+}
+
+.footer-section h2 {
+    margin-bottom: 10px;
+	color:red;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin: 5px 0;
+}
+
+.footer-section ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-bottom p {
+    background-color: #222;
+    color:red;
+    padding: 10px 0;
+    text-align: center;
+}
+.footer-section  p{
+	color:white;
+	font-size:15px;
+}
+    </style>
+	<link rel="shortcut icon" type="image/png" href="favicon.png" />
+	<header>
+	<img src="logoo.png" alt="Portfolio Logo" id="logo">
+	</header>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <h1>Quiz</h1>
+        <div class="question-container">
+            <div class="question" id="question"></div>
+            <ul class="answers" id="answers"></ul>
+        </div>
+        <button onclick="submitQuiz()">Submit</button>
+        <div class="result" id="result"></div>
+    </div>
+	<img src="i1.png" alt="Portfolio Logo" class="logoo">
+		
+		<img src="i2.png" alt="Portfolio Logo" class="logoo">
+		<img src="i4.png" alt="Portfolio Logo" class="logoo">
+		<img src="i5.png" alt="Portfolio Logo" class="logoo">
+		<img src="i3.png" alt="Portfolio Logo" class="logoo">
+		
+    <script>
+        const quizData = [
+		{
+                question: "Which company devloped the First Personal Computer?",
+                answers: ["Apple", "IBM", "Microsoft", "Dell"],
+                correct: "IBM"
+            },
+			{
+                question: "What is the most widely used operating system in the world:?",
+                answers: [ "Mac OS","Windows", "Chrome OS", "Linus"],
+                correct: "Windows"
+            },
+            {
+                question: "Which programming language is used to devlop web pages:?",
+                answers: [ "Linus", "Javascript","HTML", "Oracle"],
+                correct: "HTML"
+            },
+			{
+                question: "What is the largest search engine in the India:?",
+                answers: ["Google", "bing", "Yahoo", "DuckDuckgo"],
+                correct: "Google"
+            },
+			{
+                question: "Which Company developed the First Smartphone",
+                answers: ["Apple", "Vivo", "Samsung", "Nokio"],
+                correct: "Apple"
+            },
+            {
+                question: "What is the most widely used database management system in the world",
+                answers: ["MySQL", "Oracle", "SQL server", "PostgreSQL"],
+                correct: "MySQL"
+            },
+			{
+                question: "What is the term for a computer security threat that demands payment in exchange for data?",
+                answers: ["Virus", "Worm", "Trojan", "Ransomware"],
+                correct: "Ransomware"
+            },
+			 {
+                question: "Which Computer storage device is used to store data temporaily ?",
+                answers: ["DRIVE", "HARD DISK", "RAM", "ROM"],
+                correct: "RAM"
+            },
+			 {
+                question: "Which company developed the first cloud computing platform",
+                answers: ["Amazon", "Microsoft", "Google", "IBM"],
+                correct: "Amazon"
+            },
+			 {
+                question: "What is the term for a computer network that connects device in a limited area?",
+                answers: ["LAN", "MAN", "PAN", "WAN"],
+                correct: "LAN"
+            },
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function loadQuiz() {
+            const questionElement = document.getElementById('question');
+            const answersElement = document.getElementById('answers');
+            
+            questionElement.innerText = quizData[currentQuestion].question;
+            answersElement.innerHTML = '';
+            
+            quizData[currentQuestion].answers.forEach(answer => {
+                const answerElement = document.createElement('li');
+                answerElement.innerHTML = `
+                    <label>
+                        <input type="radio" name="answer" value="${answer}">
+                        ${answer}
+                    </label>
+                `;
+                answersElement.appendChild(answerElement);
+            });
+        }
+
+        function submitQuiz() {
+            const answerElements = document.querySelectorAll('input[name="answer"]:checked');
+            if (answerElements.length > 0) {
+                const selectedAnswer = answerElements[0].value;
+                if (selectedAnswer === quizData[currentQuestion].correct) {
+                    score++;
+                }
+                currentQuestion++;
+                if (currentQuestion < quizData.length) {
+                    loadQuiz();
+                } else {
+                    displayResult();
+                }
+            } else {
+                alert("Please select an answer");
+            }
+        }
+
+        function displayResult() {
+            const resultElement = document.getElementById('result');
+            resultElement.innerHTML = `
+                <h2>Your Score: ${score}/${quizData.length}</h2>
+                <button onclick="restartQuiz()">Restart</button>
+            `;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('result').innerHTML = '';
+            loadQuiz();
+        }
+
+        // Initial load
+        loadQuiz();
+    </script>
+
+</body>
+</html>
